@@ -35,7 +35,7 @@
     <div class="data_recipe">
       <div class="img_container">
         <img class="img_meal" src={strMealThumb} alt="" />
-        <p>Tags: {strTags.split(",").join(" ")}</p>
+        <p>Tags: {strTags !== null ? strTags.split(",").join(" ") : "None"}</p>
         <p>Category: {strCategory}</p>
       </div>
 
