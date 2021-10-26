@@ -1,14 +1,16 @@
-<script>
+<script lang="ts">
+  import { createEventDispatcher } from "svelte";
+  import ico from "../assets/x-circle.svg";
+
   export let strMeal;
   export let strMealThumb;
   export let strInstructions;
   export let strTags;
   export let strCategory;
   export let ingredients;
-  import { createEventDispatcher } from "svelte";
-  import ico from "../assets/x-circle.svg";
 
   let flag = true;
+  let change = "animate__zoomIn";
   const instructions = strInstructions
     .split("\r\n")
     .filter((data) => data !== "\r\n");
@@ -23,10 +25,73 @@
   const changeIns = () => {
     flag = false;
   };
+
+  const createPDFMeal = () => {
+    let dd = {
+      info: {
+        title: strMeal,
+      },
+      content: [
+        { text: strMeal, style: "header" },
+        {
+          columns: [
+            [
+              {
+                // if you specify both width and height - image will be stretched
+                image: "img",
+                width: 200,
+                height: 250,
+                margin: [2, 10],
+              },
+              { text: "Ingredients", fontSize: 18, bold: true },
+              {
+                ul: [ingredients],
+                margin: [2, 10],
+              },
+              {
+                text: `Tags: ${strTags}\n\nCategory: ${strCategory}`,
+                margin: [2, 5],
+              },
+            ],
+            [
+              { text: "Instructions\n", fontSize: 18, bold: true },
+              { text: strInstructions, margin: [0, 10] },
+            ],
+          ],
+          columnGap: 10,
+        },
+      ],
+      footer: {
+        columns: [
+          { text: "Coocking app", margin: [10, 0], color: "gray" },
+          {
+            text: "App Made By Daniel Contreras",
+            alignment: "right",
+            margin: [10, 0],
+            color: "gray",
+          },
+        ],
+      },
+      images: {
+        img: strMealThumb,
+      },
+      styles: {
+        header: {
+          fontSize: 22,
+          bold: true,
+        },
+        defaultStyle: {
+          fontSize: 15,
+          bold: false,
+        },
+      },
+    };
+    pdfMake.createPdf(dd).open();
+  };
 </script>
 
-<div class="container__recipe">
-  <div class="recipe__card">
+<div class="container__recipe ">
+  <div class="recipe__card animate__animated {change}">
     <div class="title_and_return">
       <h1>{strMeal}</h1>
       <img on:click={myCustom} src={ico} alt="return" />
@@ -59,7 +124,7 @@
           </section>
         {/if}
         <div class="button">
-          <button>Download Recipe</button>
+          <button on:click={createPDFMeal}>Download Recipe</button>
         </div>
       </article>
     </div>

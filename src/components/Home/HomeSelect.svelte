@@ -23,6 +23,10 @@
     padding: 15px;
     h1 {
       text-align: center;
+      font-family: "Dancing Script";
+      font-size: 4em;
+      color: cornsilk;
+      text-shadow: 2px 2px 3px black;
     }
     .grid__cards {
       display: grid;

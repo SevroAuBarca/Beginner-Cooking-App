@@ -6,7 +6,6 @@
     drink;
   let flag = false;
   let ingredients = [];
-
   const showCard = () => {
     ingredients = breakData(drink);
     flag = !flag;
@@ -34,13 +33,13 @@
 
 <div
   style="--img: url({strDrinkThumb})"
-  class="recipe_class bt"
+  class="recipe_class bt animate__animated animate__zoomIn"
   on:click={showCard}
 >
   <h1>{strDrink}</h1>
 </div>
 {#if flag}
-  <div class="full__recipe">
+  <div class="full__recipe ">
     <FullRecipeDrink
       {strDrink}
       {strDrinkThumb}

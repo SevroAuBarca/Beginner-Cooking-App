@@ -21,7 +21,9 @@
     while (count <= 20) {
       if (meals[`strIngredient${count}`]) {
         ingredientes.push(
-          `${meals[`strIngredient${count}`]} - ${meals[`strMeasure${count}`]}`
+          `${count}.- ${meals[`strIngredient${count}`]} - ${
+            meals[`strMeasure${count}`]
+          }`
         );
       }
       count++;
@@ -32,14 +34,15 @@
 </script>
 
 <div
+  loading="lazy"
   style="--img: url({strMealThumb})"
-  class="recipe_class bt"
+  class="recipe_class bt animate__animated animate__zoomIn"
   on:click={showCard}
 >
   <h1>{strMeal}</h1>
 </div>
 {#if flag}
-  <div class="full__recipe">
+  <div class="full__recipe ">
     <FullRecipe
       {strMeal}
       {strMealThumb}

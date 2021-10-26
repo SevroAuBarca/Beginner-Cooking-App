@@ -8,6 +8,7 @@ import typescript from "@rollup/plugin-typescript";
 import css from "rollup-plugin-css-only";
 import preprocess from "svelte-preprocess";
 import image from "@rollup/plugin-image";
+import "pdfmake/build/vfs_fonts";
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -43,6 +44,9 @@ export default {
     format: "iife",
     name: "app",
     file: "public/build/bundle.js",
+  },
+  moduleContext: {
+    "./node_modules/pdfmake/build/vfs_fonts.js": "window",
   },
   plugins: [
     image(),
