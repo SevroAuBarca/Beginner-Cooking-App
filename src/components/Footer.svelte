@@ -7,9 +7,15 @@
 <footer>
   <div class="text"><h4>Website Made By: Daniel Contreras</h4></div>
   <div class="logos">
-    <a href=""><img class="tw" src={twitter} alt="" /></a>
-    <a href=""><img class="gh" src={github} alt="" /></a>
-    <a href=""><img class="ig" src={instagram} alt="" /></a>
+    <a href="https://twitter.com/ZeroTheFasteer" target="blank"
+      ><img class="tw" src={twitter} alt="" /></a
+    >
+    <a href="https://github.com/SevroAuBarca"
+      ><img class="gh" src={github} alt="" /></a
+    >
+    <a href="https://www.instagram.com/daniel.au.lune/"
+      ><img class="ig" src={instagram} alt="" /></a
+    >
   </div>
 </footer>
 
@@ -18,11 +24,15 @@
     height: 10vh;
     background: #132248;
     color: cornsilk;
-    font-family: "Prompt", sans-serif;
+    font-family: "Dancing Script";
     display: flex;
     align-items: center;
     .text {
       margin-left: 15px;
+      font-size: 1.5em;
+      h4 {
+        margin-bottom: auto;
+      }
     }
     .logos {
       display: flex;
