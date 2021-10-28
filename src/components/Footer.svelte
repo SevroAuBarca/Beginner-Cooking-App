@@ -5,15 +5,15 @@
 </script>
 
 <footer>
-  <div class="text"><h4>Website Made By: Daniel Contreras</h4></div>
+  <h4>Website Made By: Daniel Contreras</h4>
   <div class="logos">
     <a href="https://twitter.com/ZeroTheFasteer" target="blank"
       ><img class="tw" src={twitter} alt="" /></a
     >
-    <a href="https://github.com/SevroAuBarca"
+    <a href="https://github.com/SevroAuBarca" target="blank"
       ><img class="gh" src={github} alt="" /></a
     >
-    <a href="https://www.instagram.com/daniel.au.lune/"
+    <a href="https://www.instagram.com/daniel.au.lune/" target="blank"
       ><img class="ig" src={instagram} alt="" /></a
     >
   </div>
@@ -27,13 +27,12 @@
     font-family: "Dancing Script";
     display: flex;
     align-items: center;
-    .text {
+
+    h4 {
       margin-left: 15px;
       font-size: 1.5em;
-      h4 {
-        margin-bottom: auto;
-      }
     }
+
     .logos {
       display: flex;
       margin-left: auto;

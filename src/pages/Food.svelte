@@ -1,4 +1,5 @@
 <script>
+  import Err from "../components/Err.svelte";
   import Loader from "../components/Loader.svelte";
   import RecipeCard from "../components/RecipeCard.svelte";
   let letters = [
@@ -26,20 +27,36 @@
     { id: 22, data: "V" },
     { id: 23, data: "W" },
     { id: 24, data: "X" },
-    { id: 26, data: "Z" },
     { id: 25, data: "Y" },
+    { id: 26, data: "Z" },
   ];
   let selected;
-
+  let data = "";
   const getRecipeData = async (data = "A") => {
+    const firstLetter = `https://www.themealdb.com/api/json/v1/1/search.php?f=${data.toLowerCase()}`;
+    const fullRecipe = `https://www.themealdb.com/api/json/v1/1/search.php?s=${data.toLowerCase()}`;
+    if (data.trim() === "") {
+      throw new Error("Please fill the text");
+    }
+    if (data.length > 1) {
+      const {
+        data: { meals },
+      } = await axios.get(fullRecipe);
+      console.log(meals);
+      if (!meals) {
+        throw new Error("Meals not found");
+      }
+      return meals;
+    }
     const {
       data: { meals },
-    } = await axios.get(
-      `https://www.themealdb.com/api/json/v1/1/search.php?f=${data.toLowerCase()}`
-    );
-    console.log(meals);
+    } = await axios.get(firstLetter);
+    if (!meals) {
+      throw new Error("Meals not found");
+    }
     return meals;
   };
+
   const handleSubmit = (data) => {
     promise = getRecipeData(data);
   };
@@ -50,6 +67,10 @@
 <div class="content">
   <div class="form__container">
     <h1>Foods</h1>
+    <form on:submit|preventDefault={handleSubmit(data)}>
+      <input bind:value={data} type="text" />
+      <button type="submit">Search</button>
+    </form>
     <form>
       <select bind:value={selected} on:change={handleSubmit(selected.data)}>
         {#each letters as letter}
@@ -69,6 +90,10 @@
       {#each meals as meal}
         <RecipeCard {meal} />
       {/each}
+    {:catch error}
+      <div class="load">
+        <Err {error} />
+      </div>
     {/await}
   </div>
 </div>
@@ -80,6 +105,9 @@
     flex-direction: column;
     align-items: center;
     padding-bottom: 5vh;
+    color: oldlace;
+    text-shadow: 2px 2px 3px black;
+    font-family: "Prompt", sans-serif;
     .form__container {
       width: 80%;
       height: 10vh;
@@ -87,11 +115,8 @@
       align-items: center;
       h1 {
         margin-right: auto;
-        color: oldlace;
         padding: 0 5px;
-        text-shadow: 2px 2px 3px black;
         font-size: 1.5em;
-        font-family: "Prompt", sans-serif;
       }
       form {
         margin-left: auto;

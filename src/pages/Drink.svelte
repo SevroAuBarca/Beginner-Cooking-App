@@ -1,4 +1,5 @@
 <script>
+  import Err from "../components/Err.svelte";
   import Loader from "../components/Loader.svelte";
   import RecIpeCardDrinks from "../components/RecIpeCardDrinks.svelte";
   let letters = [
@@ -26,18 +27,34 @@
     { id: 22, data: "V" },
     { id: 23, data: "W" },
     { id: 24, data: "X" },
-    { id: 26, data: "Z" },
     { id: 25, data: "Y" },
+    { id: 26, data: "Z" },
   ];
   let selected;
-
+  let data = "";
   const getRecipeData = async (data = "A") => {
+    const firstLetter = `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${data.toLowerCase()}`;
+    const fullRecipe = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${data.toLowerCase()}`;
+    if (data.trim() === "") {
+      throw new Error("Please fill the text");
+    }
+    if (data.length > 1) {
+      const {
+        data: { drinks },
+      } = await axios.get(fullRecipe);
+
+      if (!drinks) {
+        throw new Error("Drink not found");
+      }
+      console.log(drinks);
+      return drinks;
+    }
     const {
       data: { drinks },
-    } = await axios.get(
-      `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${data.toLowerCase()}`
-    );
-    console.log(drinks);
+    } = await axios.get(firstLetter);
+    if (!drinks) {
+      throw new Error("Data not found");
+    }
     return drinks;
   };
   const handleSubmit = (data) => {
@@ -50,6 +67,10 @@
 <div class="content">
   <div class="form__container">
     <h1>Drinks</h1>
+    <form on:submit|preventDefault={handleSubmit(data)}>
+      <input bind:value={data} type="text" />
+      <button type="submit">Search</button>
+    </form>
     <form>
       <select bind:value={selected} on:change={handleSubmit(selected.data)}>
         {#each letters as letter}
@@ -69,6 +90,10 @@
       {#each drinks as drink}
         <RecIpeCardDrinks {drink} />
       {/each}
+    {:catch error}
+      <div class="load">
+        <Err {error} />
+      </div>
     {/await}
   </div>
 </div>
@@ -80,6 +105,9 @@
     flex-direction: column;
     align-items: center;
     padding-bottom: 5vh;
+    font-family: "Prompt", sans-serif;
+    text-shadow: 2px 2px 3px black;
+    color: oldlace;
     .form__container {
       width: 80%;
       height: 10vh;
@@ -87,11 +115,8 @@
       align-items: center;
       h1 {
         margin-right: auto;
-        color: oldlace;
         padding: 0 5px;
-        text-shadow: 2px 2px 3px black;
         font-size: 1.5em;
-        font-family: "Prompt", sans-serif;
       }
       form {
         margin-left: auto;
