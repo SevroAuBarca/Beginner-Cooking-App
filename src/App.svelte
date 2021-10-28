@@ -11,7 +11,7 @@
   <Footer />
 </div>
 
-<style type="text/scss">
+<style lang="scss">
   .container {
     width: 100%;
     background: rgb(217, 228, 217);

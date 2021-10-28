@@ -9,6 +9,7 @@ import css from "rollup-plugin-css-only";
 import preprocess from "svelte-preprocess";
 import image from "@rollup/plugin-image";
 import "pdfmake/build/vfs_fonts";
+import alias from "@rollup/plugin-alias";
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -49,6 +50,13 @@ export default {
     "./node_modules/pdfmake/build/vfs_fonts.js": "window",
   },
   plugins: [
+    alias({
+      entries: [
+        // { find: "footer", replacement: "./components/Footer.svelte" },
+        // { find: "navbar", replacement: "./components/Navbar.svelte" },
+        // { find: "routes", replacement: "./routes/router.ts" },
+      ],
+    }),
     image(),
     svelte({
       preprocess: preprocess(),
